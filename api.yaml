@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Viking Demo API
+  version: 1.0.0
+  description: Демонстрационное REST API для получения списка созданных викингов
+
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер разработки
+
+paths:
+  /api/vikings:
+    get:
+      tags:
+        - Vikings
+      summary: Получить список всех созданных викингов
+      description: Возвращает список всех викингов, созданных в приложении на текущий момент
+      operationId: getAllVikings
+      responses:
+        '200':
+          description: Список викингов успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Viking'
+    post:
+      tags:
+        - Vikings
+      summary: Добавить нового викинга
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Викинг добавлен
+
+  /api/vikings/{id}:
+    delete:
+      tags:
+        - Vikings
+      summary: Удалить викинга по id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Удалено
+
+
+    put:
+      tags:
+        - Vikings
+      summary: Обновить викинга
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Viking'
+      responses:
+        '200':
+          description: Обновлено
+
+  /api/vikings/test:
+    get:
+      tags:
+        - Vikings
+      summary: Получить список тестовых викингов
+      description: Получить список тестовых викингов
+      operationId: getTest
+      responses:
+        '200':
+          description: Список викингов успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: string
+                  
+components:
+  schemas:
+    Viking:
+      type: object
+      required:
+        - name
+        - age
+        - heightCm
+        - hairColor
+        - beardStyle
+        - equipment
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "1"
+        name:
+          type: string
+          example: Ragnar
+        age:
+          type: integer
+          format: int32
+          example: 34
+        heightCm:
+          type: integer
+          format: int32
+          example: 182
+        hairColor:
+          $ref: '#/components/schemas/HairColor'
+        beardStyle:
+          $ref: '#/components/schemas/BeardStyle'
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentItem'
+
+    EquipmentItem:
+      type: object
+      required:
+        - name
+        - quality
+      properties:
+        name:
+          type: string
+          example: Axe
+        quality:
+          $ref: '#/components/schemas/EquipmentQuality'
+
+    HairColor:
+      type: string
+      enum:
+        - Blond
+        - Red
+        - Brown
+        - Black
+        - Gray
+      example: Blond
+
+    BeardStyle:
+      type: string
+      enum:
+        - Short
+        - Long
+        - Braided
+        - Forked
+        - None
+      example: Braided
+
+    EquipmentQuality:
+      type: string
+      enum:
+        - Common
+        - Uncommon
+        - Rare
+        - Legendary
+      example: Rare
