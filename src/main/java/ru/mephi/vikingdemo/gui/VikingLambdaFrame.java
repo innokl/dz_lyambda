@@ -67,6 +67,9 @@ public class VikingLambdaFrame extends JFrame {
         sb.append("Two axes: ")
                 .append(service.countTwoAxes())
                 .append("\n\n");
+        sb.append("Vikings with one or two axes: ")
+                .append(service.countOneOrTwoAxes())
+                .append("\n\n");
 
 
         Viking tall = service.randomTallViking();
