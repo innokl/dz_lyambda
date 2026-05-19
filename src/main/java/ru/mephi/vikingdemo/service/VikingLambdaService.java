@@ -84,7 +84,21 @@ public class VikingLambdaService {
                 )
                 .count();
     }
+    public long countOneOrTwoAxes() {
 
+        return vikingService.findAll()
+                .stream()
+                .filter(v -> {
+
+                    long axeCount = v.equipment()
+                            .stream()
+                            .filter(e -> e.name().contains("Axe"))
+                            .count();
+
+                    return axeCount == 1 || axeCount == 2;
+                })
+                .count();
+    }
     public Viking randomTallViking() {
 
         List<Viking> tall = vikingService.findAll()
