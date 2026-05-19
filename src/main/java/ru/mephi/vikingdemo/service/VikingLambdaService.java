@@ -113,11 +113,16 @@ public class VikingLambdaService {
                 .toList();
     }
 
+    
     public List<Viking> redBeardSorted() {
 
         return vikingService.findAll()
                 .stream()
-                .filter(v -> v.hairColor() == HairColor.Red)
+                .filter(v ->
+                        v.hairColor() == HairColor.Red
+                                &&
+                                v.beardStyle() != BeardStyle.CLEAN_SHAVEN
+                )
                 .sorted(Comparator.comparing(Viking::age))
                 .toList();
     }
