@@ -127,20 +127,24 @@ public class VikingLambdaService {
                 .toList();
     }
 
-    public Integer maxId() {
+    public Integer[] getIdsArray() {
 
         return vikingService.findAll()
                 .stream()
                 .map(Viking::id)
+                .toArray(Integer[]::new);
+    }
+
+    public Integer maxId() {
+
+        return Arrays.stream(getIdsArray())
                 .max(Integer::compareTo)
                 .orElse(0);
     }
 
     public List<Integer> evenIds() {
 
-        return vikingService.findAll()
-                .stream()
-                .map(Viking::id)
+        return Arrays.stream(getIdsArray())
                 .filter(id -> id % 2 == 0)
                 .toList();
     }
